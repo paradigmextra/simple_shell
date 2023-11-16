@@ -104,15 +104,15 @@ int handle_builtin(char **cmd, int st);
 void exit_bul(char **cmd, char *input, char **argv, int c, int stat);
 int change_dir(char **cmd, __attribute__((unused))int st);
 int dis_env(__attribute__((unused)) char **cmd,
-            __attribute__((unused)) int st);
+ __attribute__((unused)) int st);
 int echo_bul(char **cmd, int st);
 int history_dis(__attribute__((unused))char **c,
-                __attribute__((unused)) int st);
+__attribute__((unused)) int st);
 
 /* ---- BUILT-IN COMMANDS STRUCT ---- */
 typedef struct _builtin {
-    char *command;
-    int (*function)(char **line, int st);
+char *command;
+int (*function)(char **line, int st);
 } builtin;
 
 #endif /* HEADER_H */
