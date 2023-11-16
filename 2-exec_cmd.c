@@ -46,5 +46,24 @@ void exec_cmd(char **args, char **env)
 		perror("gb_strdup");
 		exit(2);
 	}
+token = gb_strtok(path, ":");
+	while (token != NULL)
+	{
+		gb_strcpy(our_path, token);
+		gb_strcat(our_path, "/");
+		gb_strcat(our_path, args[0]);
 
+		if (access(our_path, X_OK) == 0)
+		{
+			execve(our_path, args, env);
+			exit(EXIT_FAILURE);
+		}
+
+		token = gb_strtok(NULL, ":");
+	}
+
+	perror("./hsh");
+	free(path);
+	exit(EXIT_FAILURE);
+}
 	
