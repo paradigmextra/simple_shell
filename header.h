@@ -110,7 +110,7 @@ int history_dis(__attribute__((unused))char **c,
 __attribute__((unused)) int st);
 
 /* ---- BUILT-IN COMMANDS STRUCT ---- */
-typedef struct _builtin 
+typedef struct _builtin
 {
 char *command;
 int (*function)(char **line, int st);
