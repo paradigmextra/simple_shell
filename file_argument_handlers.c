@@ -1,10 +1,11 @@
 #include "header.h"
 
 /**
- * @brief Reads commands from the specified file and executes them.
+ * @brief Reads and executes commands from the specified file.
  *
- * @param file Filename containing commands.
+ * @param file File containing commands.
  * @param argv Command line arguments.
+ * @return -1 or 0.
  */
 void read_file(char *file, char **argv)
 {
@@ -26,12 +27,12 @@ void read_file(char *file, char **argv)
     }
 
     free(line);
-    fclose(fp);  // Close the file only if it was successfully opened
+    fclose(fp);
     exit(0);
 }
 
 /**
- * @brief Parses commands from a file line and handles their execution.
+ * @brief Parses and executes commands from a file line.
  *
  * @param line Line from the file.
  * @param count Error counter.
@@ -48,13 +49,13 @@ void treat_file(char *line, int count, FILE *fp, char **argv)
     else if (check_builtin(cmd) == 0)
     {
         stat = handle_builtin(cmd, stat);
+        free(cmd);
     }
     else
     {
         stat = check_cmd(cmd, line, count, argv);
+        free(cmd);
     }
-
-    free(cmd);  // Move the free(cmd) outside the if-else structure
 }
 
 /**
