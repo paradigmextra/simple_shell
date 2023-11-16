@@ -12,18 +12,18 @@ Alias aliases[MAX_ALIASES];
 int check_cmd(char **input);
 
 /**
- * check_cmd - Check if the command exists in the path
+ * check_cmd - Check if the command exists in the path or aliases
  * @input: Pointer to the command.
- * Return: Return a status value of 1 on success and 0 on failure.
+ * Return: Return 1 on success and 0 on failure.
  */
 int check_cmd(char **input) {
     char *path, *token, *bufa;
     static char path_bufa[1024];
-    int i;
+    int i, num_aliases = MAX_ALIASES;
 
-    for (i = 0; i < MAX_ALIASES; i++) {
+    for (i = 0; i < num_aliases; i++) {
         if (aliases[i].name != NULL && gb_strcmp(*input, aliases[i].name) == 0) {
-            *input = aliases[i].value; /**Replace the alias with its value**/
+            *input = aliases[i].value; /** Replace the alias with its value **/
             return 1;
         }
     }
