@@ -79,10 +79,4 @@ void exit_bul_for_file(char **cmd, char *line, FILE *fd)
 	{
 		if (_isalpha(cmd[1][i++]) < 0)
 			perror("Illegal number");
-	}
-	status = _atoi(cmd[1]);
-	free(line);
-	free(cmd);
-	fclose(fd);
-	exit(status);
-}
+
