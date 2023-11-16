@@ -43,30 +43,4 @@ ssize_t gb_getline(char **line_ptr, size_t *len_siz, FILE *stream)
 				return (p_len);
 			}
 		}
-		read_char = gb_strlen(line + p_len);
-
-		if (read_char > 0 && line[read_char - 1] == '\n')
-		{
-			line[p_len + read_char - 1] = '\0';
-			*line_ptr = line;
-			*len_siz = size;
-
-			return (p_len + read_char);
-		}
-		p_len += read_char;
-
-		if (size - p_len <= 1)
-		{
-			size *= 2;
-			new_line = realloc(line, size);
-			if (new_line == NULL)
-			{
-				free(line);
-				*line_ptr = NULL;
-				*len_siz = 0;
-				return (-1);
-			}
-			line = new_line;
-		}
-	}
-}
+	
