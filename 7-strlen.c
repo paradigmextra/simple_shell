@@ -16,10 +16,4 @@ size_t gb_strlen(const char *input)
 		return (0);
 	}
 
-	while (input[len])
-	{
-		len++;
-	}
 
-	return (len);
-}
