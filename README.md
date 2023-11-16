@@ -1,4 +1,5 @@
-A Team Project by:
+A Team Project by
+VICTOR MLONGOTI  
+CONTACT DETAILS : +265 992448833
+EMAIL : paradigmextra.com
 
-1. Grace Ajibola
-2. Bilal Soliu
