@@ -26,7 +26,7 @@ void read_file(char *file, char **argv)
     }
 
     free(line);
-    fclose(fp);
+    fclose(fp);  // Close the file only if it was successfully opened
     exit(0);
 }
 
@@ -48,13 +48,13 @@ void treat_file(char *line, int count, FILE *fp, char **argv)
     else if (check_builtin(cmd) == 0)
     {
         stat = handle_builtin(cmd, stat);
-        free(cmd);
     }
     else
     {
         stat = check_cmd(cmd, line, count, argv);
-        free(cmd);
     }
+
+    free(cmd);  // Move the free(cmd) outside the if-else structure
 }
 
 /**
