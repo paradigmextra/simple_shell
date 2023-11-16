@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
+#include <ctype.h>
 
 #define MAX_LINE_SIZE 1024
 
-/**
- * Function prototypes
- */
 void error_file(char **argv, int count);
 char **parse_cmd(char *line);
 int _strncmp(const char *s1, const char *s2, size_t n);
@@ -17,25 +14,33 @@ int check_cmd(char **cmd, char *line, int count, char **argv);
 int _atoi(const char *str);
 void exit_bul_for_file(char **cmd, char *line, FILE *fd);
 
-/**
- * read_file - Reads commands from the argument File
- */
-void read_file(char *file, char **argv)
-{
+void read_file(char *file, char **argv);
+void treat_file(char *line, int count, FILE *fp, char **argv);
+
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    read_file(argv[1], argv);
+
+    return 0;
+}
+
+void read_file(char *file, char **argv) {
     FILE *fp;
     char *line = NULL;
     size_t len = 0;
     int count = 0;
 
     fp = fopen(file, "r");
-    if (fp == NULL)
-    {
+    if (fp == NULL) {
         perror("Error opening file");
         exit(EXIT_FAILURE);
     }
 
-    while (getline(&line, &len, fp) != -1)
-    {
+    while (getline(&line, &len, fp) != -1) {
         count++;
         treat_file(line, count, fp, argv);
     }
@@ -47,49 +52,35 @@ void read_file(char *file, char **argv)
     exit(EXIT_SUCCESS);
 }
 
-/**
- * treat_file - Parse commands and handle their execution
- */
-void treat_file(char *line, int count, FILE *fp, char **argv)
-{
+void treat_file(char *line, int count, FILE *fp, char **argv) {
     char **cmd = parse_cmd(line);
     int stat = 0;
 
     if (_strncmp(cmd[0], "exit", 4) == 0)
         exit_bul_for_file(cmd, line, fp);
-    else if (check_builtin(cmd) == 0)
-    {
+    else if (check_builtin(cmd) == 0) {
         stat = handle_builtin(cmd, stat);
         free(cmd);
     }
-    else
-    {
+    else {
         stat = check_cmd(cmd, line, count, argv);
         free(cmd);
     }
 }
 
-/**
- * exit_bul_for_file - Exit status handler for file input
- */
-void exit_bul_for_file(char **cmd, char *line, FILE *fd)
-{
+void exit_bul_for_file(char **cmd, char *line, FILE *fd) {
     int status;
 
-    if (cmd[1] == NULL)
-    {
+    if (cmd[1] == NULL) {
         free(line);
         free(cmd);
         fclose(fd);
-        exit(errno);
+        exit(EXIT_FAILURE);
     }
 
-    // Validate if cmd[1] is a valid integer
-    for (int i = 0; cmd[1][i]; i++)
-    {
-        if (!isdigit(cmd[1][i]))
-        {
-            perror("Illegal number");
+    for (int i = 0; cmd[1][i]; i++) {
+        if (!isdigit((unsigned char)cmd[1][i])) {
+            fprintf(stderr, "Illegal number\n");
             free(line);
             free(cmd);
             fclose(fd);
@@ -104,4 +95,4 @@ void exit_bul_for_file(char **cmd, char *line, FILE *fd)
     exit(status);
 }
 
-// Add the remaining function implementations (parse_cmd, check_builtin, handle_builtin, check_cmd, _atoi, etc.)
+/* Implement the remaining functions */
